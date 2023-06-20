@@ -3,6 +3,7 @@
   "configurePresets": [
     {
       "name": "default",
+      "generator": "Ninja",
       "displayName": "Default configuration",
       "binaryDir": "cmake-build-default",
       "cacheVariables": {
