@@ -1,0 +1,78 @@
+name: test
+run-name: Run tests
+
+on:
+  push:
+  pull_request:
+  workflow_call:
+
+jobs:
+
+  test-clang-tidy-configure:
+    name: Run default at configure only
+    runs-on: ubuntu-latest
+    container: ghcr.io/lecrisut/dev-env:main
+    steps:
+      - uses: actions/checkout@v3
+      - uses: lukka/get-cmake@latest
+      - name: Run default cmake
+        uses: lukka/run-cmake@v10.3
+        with:
+          configurePreset: default
+      - name: Run clang-tidy
+        run: |
+          clang-tidy -p ./cmake-build-* ./*cpp*
+  test-clang-tidy-build:
+    name: Run default with build
+    runs-on: ubuntu-latest
+    container: ghcr.io/lecrisut/dev-env:main
+    steps:
+      - uses: actions/checkout@v3
+      - uses: lukka/get-cmake@latest
+      - name: Run default cmake
+        uses: lukka/run-cmake@v10.3
+        with:
+          workflowPreset: default
+      - name: Run clang-tidy
+        run: |
+          clang-tidy -p ./cmake-build-* ./*cpp*
+  test-clang-tidy-compile-commands-configure:
+    name: Run with compile-commands at configure only
+    runs-on: ubuntu-latest
+    container: ghcr.io/lecrisut/dev-env:main
+    steps:
+      - uses: actions/checkout@v3
+      - uses: lukka/get-cmake@latest
+      - name: Run default cmake
+        uses: lukka/run-cmake@v10.3
+        with:
+          configurePreset: compile-commands
+      - name: Run clang-tidy
+        run: |
+          clang-tidy -p ./cmake-build-* ./*cpp*
+  test-clang-tidy-compile-commands-build:
+    name: Run with compile-commands with build
+    runs-on: ubuntu-latest
+    container: ghcr.io/lecrisut/dev-env:main
+    steps:
+      - uses: actions/checkout@v3
+      - uses: lukka/get-cmake@latest
+      - name: Run default cmake
+        uses: lukka/run-cmake@v10.3
+        with:
+          workflowPreset: compile-commands
+      - name: Run clang-tidy
+        run: |
+          clang-tidy -p ./cmake-build-* ./*cpp*
+
+  test-clang-tidy-built-in:
+    name: Run with compile-commands with build
+    runs-on: ubuntu-latest
+    container: ghcr.io/lecrisut/dev-env:main
+    steps:
+      - uses: actions/checkout@v3
+      - uses: lukka/get-cmake@latest
+      - name: Run default cmake
+        uses: lukka/run-cmake@v10.3
+        with:
+          workflowPreset: clang-tidy

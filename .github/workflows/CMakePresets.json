@@ -1,0 +1,108 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "default",
+      "displayName": "Default configuration",
+      "binaryDir": "cmake-build-default",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": {
+          "type": "FILEPATH",
+          "value": "clang++"
+        }
+      }
+    },
+    {
+      "name": "compile-commands",
+      "displayName": "Default configuration with compile-commands",
+      "binaryDir": "cmake-build-compile-commands",
+      "inherits": [
+        "default"
+      ],
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": {
+          "type": "BOOL",
+          "value": true
+        }
+      }
+    },
+    {
+      "name": "clang-tidy",
+      "displayName": "Use built-in clang-tidy",
+      "binaryDir": "cmake-build-clang-tidy",
+      "inherits": [
+        "default"
+      ],
+      "cacheVariables": {
+        "WITH_CLANG_TIDY": {
+          "type": "BOOL",
+          "value": true
+        }
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "default",
+      "displayName": "Build preset for default",
+      "cleanFirst": true,
+      "configurePreset": "default"
+    },
+    {
+      "name": "compile-commands",
+      "displayName": "Build preset for compile-commands",
+      "cleanFirst": true,
+      "configurePreset": "compile-commands"
+    },
+    {
+      "name": "clang-tidy",
+      "displayName": "Build preset for clang-tidy",
+      "cleanFirst": true,
+      "configurePreset": "clang-tidy"
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "default",
+      "displayName": "Workflow for default",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "default"
+        },
+        {
+          "type": "build",
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "name": "compile-commands",
+      "displayName": "Workflow for compile-commands",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "compile-commands"
+        },
+        {
+          "type": "build",
+          "name": "compile-commands"
+        }
+      ]
+    },
+    {
+      "name": "clang-tidy",
+      "displayName": "Workflow for clang-tidy",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "clang-tidy"
+        },
+        {
+          "type": "build",
+          "name": "clang-tidy"
+        }
+      ]
+    }
+  ]
+}
